@@ -1,0 +1,120 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { database } from '../firebase';
+import { ref, set } from 'firebase/database';
+import { getStorage, ref as storageRef, uploadBytes } from 'firebase/storage';
+import './CustomerInput.css';
+import Navbar from './Navbar';
+import Footer from './Footer';
+
+function CustomerInput() {
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [contact, setContact] = useState('');
+  const [proof, setProof] = useState(null);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const storage = getStorage();
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProof(file);
+    } else {
+      setError('No file selected.');
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (age < 18 || age > 70) {
+      setError('You must be between 18 and 70 years old to book a ticket.');
+      return;
+    }
+
+    const contactRegex = /^\d{10}$/;
+    if (!contactRegex.test(contact)) {
+      setError('Contact details must be exactly 10 digits.');
+      return;
+    }
+
+    if (!proof) {
+      setError('Proof of age is required.');
+      return;
+    }
+
+    const userId = Date.now();
+    const userRef = ref(database, 'customers/' + userId);
+
+    const proofRef = storageRef(storage, `proofs/${userId}`);
+    uploadBytes(proofRef, proof).then(() => {
+      set(userRef, {
+        name,
+        age,
+        contact,
+        proofUrl: `proofs/${userId}`
+      }).then(() => {
+        navigate('/PaymentPage');
+      }).catch((error) => {
+        console.error('Error saving data to Firebase Realtime Database:', error);
+        setError('Failed to save data. Please try again.');
+      });
+    }).catch((error) => {
+      console.error('Error uploading proof to Firebase Storage:', error);
+      setError(`Failed to upload proof: ${error.message}`);
+    });
+  };
+
+  return (
+    <div className="customer-input-page">
+      <Navbar />
+      <div className="customer-input-container">
+        <h1>Enter Your Proof of Age Details</h1>
+        <form onSubmit={handleSubmit} className="customer-input-form">
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="form-input"
+            required
+          />
+          <input
+            type="number"
+            placeholder="Age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            min="18"
+            max="70"
+            className="form-input"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Contact Details"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            className="form-input"
+            maxLength="10"
+            pattern="\d{10}"
+            title="Contact details must be exactly 10 digits."
+            required
+          />
+          <input
+            type="file"
+            accept=".jpg, .jpeg"
+            onChange={handleFileChange}
+            className="file-upload"
+            required
+          />
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="submit-btn">Do Payment</button>
+        </form>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default CustomerInput;

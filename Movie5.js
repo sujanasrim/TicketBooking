@@ -40,3 +40,5 @@ function Movie5() {
     </div>
   );
 }
+
+export default Movie5;

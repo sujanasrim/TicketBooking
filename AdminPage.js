@@ -13,7 +13,6 @@ function AdminPage() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    
     if (username === 'Jaspreet' && password === 'Admin') {
       navigate('/Background'); 
     } else {
@@ -25,11 +24,11 @@ function AdminPage() {
     <div className="admin-page">
       <Navbar />
       <div className="admin-container">
-        <h2>Admin Login</h2>
+        <h2 className='j'>Admin Login</h2>
         <div className="form-group">
           <form onSubmit={handleLogin}>
             <div className="input-group">
-              <label htmlFor="username">Username:</label>
+              <label className='d'>Username:</label>
               <input
                 type="text"
                 id="username"
@@ -39,7 +38,7 @@ function AdminPage() {
               />
             </div>
             <div className="input-group">
-              <label htmlFor="password">Password:</label>
+              <label className='d'>Password:</label>
               <input
                 type="password"
                 id="password"

@@ -21,15 +21,28 @@ function AuthenticationPage() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    
+    const trimmedPassword = password.trim();
+
+    
+    const hasLetter = /[a-zA-Z]/.test(trimmedPassword);
+    const hasNumber = /[0-9]/.test(trimmedPassword);
+
+    if (!hasLetter || !hasNumber) {
+      setError('Password must contain at least one letter and one number.');
+      return;
+    }
+
     if (isCreatingAccount) {
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, email, trimmedPassword)
         .then(() => {
-          navigate('/Mainpage');         })
+          navigate('/Mainpage');
+        })
         .catch((error) => {
           setError(error.message);
         });
     } else {
-      signInWithEmailAndPassword(auth, email, password)
+      signInWithEmailAndPassword(auth, email, trimmedPassword)
         .then(() => {
           navigate('/Mainpage');
         })
@@ -43,7 +56,7 @@ function AuthenticationPage() {
     <div className="auth-page-wrapper">
       <Navbar />
       <div className="auth-form-container">
-      <h2 className="auth-heading">{isCreatingAccount ? 'Create Account' : 'Login'}</h2>
+        <h2 className="auth-heading">{isCreatingAccount ? 'Create Account' : 'Login'}</h2>
         <form className="auth-form" onSubmit={handleFormSubmit}>
           <div className="auth-form-group">
             <label className="auth-label" htmlFor="email">Email:</label>

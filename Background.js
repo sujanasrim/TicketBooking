@@ -10,7 +10,6 @@ const Background = () => {
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
-    // Fetch bookings from the database
     const bookingsRef = ref(database, 'bookings');
     onValue(bookingsRef, (snapshot) => {
       const data = snapshot.val();
@@ -23,7 +22,6 @@ const Background = () => {
       }
     });
 
-    // Fetch customer data from the database
     const customersRef = ref(database, 'customers');
     onValue(customersRef, (snapshot) => {
       const data = snapshot.val();
@@ -38,7 +36,6 @@ const Background = () => {
   }, []);
 
   const handleRemoveBooking = (id) => {
-    // Remove booking from the database
     remove(ref(database, `bookings/${id}`))
       .then(() => {
         setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== id));
@@ -49,7 +46,6 @@ const Background = () => {
   };
 
   const handleRemoveCustomer = (id) => {
-    // Remove customer from the database
     remove(ref(database, `customers/${id}`))
       .then(() => {
         setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== id));
@@ -67,7 +63,7 @@ const Background = () => {
         <ul className="data-list">
           {bookings.map((booking) => (
             <li key={booking.id} className="data-item">
-              Seats: {booking.seats.join(', ')}, 
+              Seats: {Array.isArray(booking.seats) ? booking.seats.join(', ') : 'N/A'}, 
               Total Price: ${booking.totalPrice}, 
               Show Time: {booking.showTime}
               <button className="removing-button" onClick={() => handleRemoveBooking(booking.id)}>Remove</button>

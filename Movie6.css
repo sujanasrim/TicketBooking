@@ -1,0 +1,49 @@
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh', 
+    fontFamily: 'Arial, sans-serif',
+    padding: '20px',
+    textAlign: 'center',
+    flex: 1, 
+  },
+  content: {
+    display: 'flex',
+    alignItems: 'flex-start', 
+    justifyContent: 'center',
+    marginTop: '20px',
+    flex: 1, 
+  },
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginRight: '20px',
+  },
+  image: {
+    maxWidth: '200px',
+    height: 'auto',
+  },
+  textContainer: {
+    maxWidth: '600px',
+    textAlign: 'left',
+  },
+  heading: {
+    margin: 0, 
+    fontSize: '24px',
+  },
+  description: {
+    marginTop: '10px', 
+    fontSize: '16px',
+  },
+  bookButton: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: '#ff0000',
+    color: '#fff',
+    border: 'none',
+    cursor: 'pointer',
+  },
+};

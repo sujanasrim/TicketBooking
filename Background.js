@@ -10,18 +10,30 @@ const Background = () => {
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
+    
     const bookingsRef = ref(database, 'bookings');
     onValue(bookingsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const bookingsArray = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
+       
+        const bookingsArray = [];
+        Object.keys(data).forEach((showTime) => {
+          Object.values(data[showTime]).forEach((booking) => {
+            bookingsArray.push({
+              id: booking.id, 
+              seats: booking.seats || [], 
+              totalPrice: booking.totalPrice,
+              showTime,
+            });
+          });
+        });
         setBookings(bookingsArray);
+      } else {
+        setBookings([]);
       }
     });
 
+    
     const customersRef = ref(database, 'customers');
     onValue(customersRef, (snapshot) => {
       const data = snapshot.val();
@@ -31,6 +43,8 @@ const Background = () => {
           ...data[key],
         }));
         setCustomers(customersArray);
+      } else {
+        setCustomers([]);
       }
     });
   }, []);
@@ -63,9 +77,9 @@ const Background = () => {
         <ul className="data-list">
           {bookings.map((booking) => (
             <li key={booking.id} className="data-item">
-              Seats: {Array.isArray(booking.seats) ? booking.seats.join(', ') : 'N/A'}, 
-              Total Price: ${booking.totalPrice}, 
-              Show Time: {booking.showTime}
+              Seats: {booking.seats.length > 0 ? booking.seats.join(', ') : 'N/A'}, 
+              Total Price: ${booking.totalPrice || 'N/A'}, 
+              Show Time: {booking.showTime || 'N/A'}
               <button className="removing-button" onClick={() => handleRemoveBooking(booking.id)}>Remove</button>
             </li>
           ))}

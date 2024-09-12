@@ -1,0 +1,87 @@
+import React, { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import './AuthenticationPage.css'; // Import the CSS file
+import Navbar from './Navbar';
+import Footer from './Footer';
+
+function AuthenticationPage() {
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const handleSwitchMode = () => {
+    setIsCreatingAccount(!isCreatingAccount);
+    setError('');
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (isCreatingAccount) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          navigate('/Mainpage');         })
+        .catch((error) => {
+          setError(error.message);
+        });
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          navigate('/Mainpage');
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    }
+  };
+
+  return (
+    <div className="auth-page-wrapper">
+      <Navbar />
+      <div className="auth-form-container">
+      <h2 className="auth-heading">{isCreatingAccount ? 'Create Account' : 'Login'}</h2>
+        <form className="auth-form" onSubmit={handleFormSubmit}>
+          <div className="auth-form-group">
+            <label className="auth-label" htmlFor="email">Email:</label>
+            <input
+              className="auth-input"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="auth-form-group">
+            <label className="auth-label" htmlFor="password">Password:</label>
+            <input
+              className="auth-input"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p className="auth-error-message">{error}</p>}
+          <button className="auth-button" type="submit">
+            {isCreatingAccount ? 'Create account' : 'Login'}
+          </button>
+        </form>
+        <p className="auth-switch-mode">
+          {isCreatingAccount ? 'Already have an account?' : "Don't have an account?"}{' '}
+          <button className="auth-switch-mode-button" onClick={handleSwitchMode}>
+            {isCreatingAccount ? 'Login here' : 'Create an account'}
+          </button>
+        </p>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default AuthenticationPage;

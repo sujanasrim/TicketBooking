@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { database } from '../firebase';
 import { ref, onValue, remove } from 'firebase/database';
 import './Background.css';
@@ -15,13 +15,12 @@ const Background = () => {
     onValue(bookingsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-       
         const bookingsArray = [];
         Object.keys(data).forEach((showTime) => {
-          Object.values(data[showTime]).forEach((booking) => {
+          Object.entries(data[showTime]).forEach(([bookingId, booking]) => {
             bookingsArray.push({
-              id: booking.id, 
-              seats: booking.seats || [], 
+              id: bookingId,
+              seats: booking.seats || [],
               totalPrice: booking.totalPrice,
               showTime,
             });
@@ -49,10 +48,14 @@ const Background = () => {
     });
   }, []);
 
-  const handleRemoveBooking = (id) => {
-    remove(ref(database, `bookings/${id}`))
+  const handleRemoveBooking = (showTime, id) => {
+    console.log('Attempting to remove booking with ID:', id);
+    remove(ref(database, `bookings/${showTime}/${id}`))
       .then(() => {
-        setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== id));
+        console.log('Successfully removed booking with ID:', id);
+        setBookings((prevBookings) =>
+          prevBookings.filter((booking) => booking.id !== id)
+        );
       })
       .catch((error) => {
         console.error('Error removing booking:', error);
@@ -60,9 +63,13 @@ const Background = () => {
   };
 
   const handleRemoveCustomer = (id) => {
+    console.log('Attempting to remove customer with ID:', id);
     remove(ref(database, `customers/${id}`))
       .then(() => {
-        setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== id));
+        console.log('Successfully removed customer with ID:', id);
+        setCustomers((prevCustomers) =>
+          prevCustomers.filter((customer) => customer.id !== id)
+        );
       })
       .catch((error) => {
         console.error('Error removing customer:', error);
@@ -76,11 +83,16 @@ const Background = () => {
         <h1 className="title">Background Booking Data</h1>
         <ul className="data-list">
           {bookings.map((booking) => (
-            <li key={booking.id} className="data-item">
+            <li key={`${booking.showTime}-${booking.id}`} className="data-item">
               Seats: {booking.seats.length > 0 ? booking.seats.join(', ') : 'N/A'}, 
               Total Price: ${booking.totalPrice || 'N/A'}, 
               Show Time: {booking.showTime || 'N/A'}
-              <button className="removing-button" onClick={() => handleRemoveBooking(booking.id)}>Remove</button>
+              <button 
+                className="removing-button" 
+                onClick={() => handleRemoveBooking(booking.showTime, booking.id)}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>
@@ -92,7 +104,12 @@ const Background = () => {
               Name: {customer.name}, Age: {customer.age}, 
               Contact: {customer.contact}, 
               Proof URL: {customer.proofUrl}
-              <button className="removing-button" onClick={() => handleRemoveCustomer(customer.id)}>Remove</button>
+              <button 
+                className="removing-button" 
+                onClick={() => handleRemoveCustomer(customer.id)}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>

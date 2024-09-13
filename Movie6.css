@@ -1,49 +1,80 @@
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh', 
-    fontFamily: 'Arial, sans-serif',
-    padding: '20px',
-    textAlign: 'center',
-    flex: 1, 
-  },
-  content: {
-    display: 'flex',
-    alignItems: 'flex-start', 
-    justifyContent: 'center',
-    marginTop: '20px',
-    flex: 1, 
-  },
-  imageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginRight: '20px',
-  },
-  image: {
-    maxWidth: '200px',
-    height: 'auto',
-  },
-  textContainer: {
-    maxWidth: '600px',
-    textAlign: 'left',
-  },
-  heading: {
-    margin: 0, 
-    fontSize: '24px',
-  },
-  description: {
-    marginTop: '10px', 
-    fontSize: '16px',
-  },
-  bookButton: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    fontSize: '16px',
-    backgroundColor: '#ff0000',
-    color: '#fff',
-    border: 'none',
-    cursor: 'pointer',
-  },
-};
+.movie6 {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+   .container5 {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center; 
+    padding: 20px; 
+  }
+  
+  .content5 {
+  
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .image-container5 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right:500px;
+    flex: 1;
+    margin-top: -100px;
+  }
+  
+  .image5 {
+    width: 50%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    margin-top: -100px;
+  }
+  
+  .book-button5{
+    width: 30%;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .text-container5 {
+    text-align: left;
+    flex: 2;
+  }
+  
+  .heading5 {
+    font-size: 24px;
+   
+    margin-left: 500px;
+    margin-top: -350px;
+  }
+  
+  .description5 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-left: 500px;
+  }
+  
+   h2 ,.l {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 500px;
+  }
+  
+   .m {
+   margin-left: 500px;
+  
+  }
+  

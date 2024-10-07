@@ -1,0 +1,144 @@
+package jazzshow;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Navbar {
+
+    WebDriver driver;
+
+    @BeforeEach
+    void setUp() {
+        driver = new ChromeDriver();
+    }
+
+    private void loadHomePage() {
+      driver.get("http://localhost:3000/Mainpage");  
+    }
+
+    @Test
+    void testHomeLink() {
+        loadHomePage();
+        WebElement homeLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[1]/a"));
+        homeLink.click();
+        assertEquals("http://localhost:3000/Mainpage", driver.getCurrentUrl(), "clicking Home link should redirect to homepage");
+    }
+    @Test
+    
+    void testcustomerLoginLink() {
+       driver.get("http://localhost:3000/Mainpage");
+       WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+        loginLink.click();
+        WebElement customerLoginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/ul/li[1]/a"));
+        customerLoginLink.click();
+        assertEquals("http://localhost:3000/AuthenticationPage", driver.getCurrentUrl(), "Clicking Customer Login should navigate to AuthenticationPage");
+    }
+
+@Test
+    
+    void testadminLoginLink() {
+        driver.get("http://localhost:3000/Mainpage");
+        WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+        loginLink.click();
+        WebElement adminLoginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/ul/li[2]/a"));
+        adminLoginLink.click();
+           assertEquals("http://localhost:3000/AdminPage", driver.getCurrentUrl(), "Clicking Admin Login should navigate to AdminpagePage");
+    }
+
+   
+    @Test
+    void testLoginLinkExit() {
+        loadHomePage();
+        WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+       assertNotNull(loginLink, "Login link should not be null and must exist");
+    }
+    
+    @Test
+    void testhomeLinkExit() {
+        loadHomePage();
+         WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[1]/a"));
+         assertNotNull(loginLink, "Home link should not be null and must exist");
+    }
+    
+    @Test
+    void testHomeLinkIncorrectHref() {
+        loadHomePage();
+        WebElement homeLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[1]/a"));
+        assertEquals("http://localhost:3000/WrongPage", homeLink.getAttribute("href"), "Home link href should be wrong page");
+    }
+    
+    @Test
+    void testCustomerLoginLinkIncorrectHref() {
+        loadHomePage();
+        WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+        loginLink.click(); 
+        WebElement customerLoginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/ul/li[1]/a"));
+        
+       
+        assertEquals("http://localhost:3000/WrongCustomerPage", customerLoginLink.getAttribute("href"), "Customer Login link href should be Wrong page");
+    }
+   
+    @Test
+    void testAdminLoginLinkIncorrectHref() {
+        loadHomePage();
+        WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+        loginLink.click(); 
+        WebElement adminLoginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/ul/li[2]/a"));
+        assertEquals("http://localhost:3000/WrongAdminPage", adminLoginLink.getAttribute("href"), "Admin Login link href should be wrong page");
+    }
+    
+    @Test
+    void testLoginLinkDoesNotExist() {
+        loadHomePage();
+        WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+        assertNull(loginLink, "Login link should not exist");
+    }
+    
+    @Test
+    void testHomeLinkDoesNotExist() {
+        loadHomePage();
+        WebElement homeLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[1]/a"));
+        assertNull(homeLink, "Home link should not exist");
+    }
+    
+    
+    
+    @Test
+    void testLoginLinkNotClickable() {
+        driver.get("http://localhost:3000/Mainpage");
+         WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+         boolean isClickable = loginLink.isEnabled();
+        assertFalse(isClickable, " Login link should not be clickable.");
+    }
+
+    @Test
+    void testHomeLinkNotClickable() {
+        driver.get("http://localhost:3000/Mainpage");
+         WebElement homeLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[1]/a"));
+         boolean isClickable = homeLink.isEnabled();
+        assertFalse(isClickable, "Home link should not be clickable.");
+    }
+
+    
+    @Test
+    void testDropdownNotDisplayed() {
+        loadHomePage();
+        WebElement loginLink = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/h4[2]"));
+        loginLink.click(); 
+        WebElement dropdownMenu = driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div/ul"));
+        assertFalse(dropdownMenu.isDisplayed(), "Dropdown menu should not be displayed");
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}

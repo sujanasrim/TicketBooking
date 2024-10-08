@@ -1,0 +1,161 @@
+package jazzshow;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Movie6{
+	
+	    private WebDriver driver;
+
+	    @BeforeEach
+	    void setUp() {
+	        driver = new ChromeDriver();
+	      
+	     }
+ @Test
+    void testButton() {
+		driver.get("http://localhost:3000/movie6");
+		WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/button"));
+		bookButton.click();
+		  try {
+	            Thread.sleep(200); 
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+		
+		assertEquals("http://localhost:3000/Jazzshow", driver.getCurrentUrl(),"User should be redirected to the Jazzshow page.");
+		driver.quit();
+	}
+	
+    @Test
+	    void testBookButtonNotEnabled() {
+
+	        driver.get("http://localhost:3000/movie6");
+
+	        WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/button"));
+	        assertFalse(bookButton.isEnabled(), "Book Tickets button should NOT be enabled.");
+	    }
+	 
+	  
+    @Test
+	void testCorrectRedirectAfterBooking() {
+		driver.get("http://localhost:3000/movie6");
+		WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/button"));
+		bookButton.click();
+		  try {
+	            Thread.sleep(200); 
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+		
+		assertEquals("http://localhost:3000/Jazzshow", driver.getCurrentUrl(),"User should be redirected to the Jazzshow page.");
+		driver.quit();
+	}
+   
+	    @Test
+		void testNavigationFail() {
+			driver.get("http://localhost:3000/movie6");
+	        WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/button"));
+	        bookButton.click();
+	        assertEquals("http://localhost:3000/IncorrectJazzshow", driver.getCurrentUrl(),"The URL after clicking 'Book Tickets' does not match the incorrect expectation.");
+		}
+	    @Test
+		void testBookButtonNotPresentFail() {
+			driver.get("http://localhost:3000/movie6");
+	        WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/button"));
+	        assertFalse(bookButton.isDisplayed(), "The 'Book Tickets' button should not be present.");
+		}
+
+		@Test
+		void testMoviePosterImageNotDisplayedFail() {
+			driver.get("http://localhost:3000/movie6");
+	        WebElement moviePosterImg = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/img"));
+	        assertFalse(moviePosterImg.isDisplayed(), "The movie poster image should not be displayed.");
+		}
+	    
+	    @Test
+	     void testHeading() {
+	    	 driver.get("http://localhost:3000/movie6");
+	        
+	        WebElement heading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[2]/h2[1]")); 
+	        String expectedHeading = "About the Movie";  
+	        String actualHeading = heading.getText();
+	        assertEquals(expectedHeading, actualHeading, "The heading should match");
+	    }
+	    @Test
+		void testBookButtonLabelFail() {
+			driver.get("http://localhost:3000/movie6");
+	        WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[1]/button"));
+			String expectedLabel = "Reserve Tickets"; 
+			String actualLabel = bookButton.getText();
+			assertEquals(expectedLabel, actualLabel, "The button label does not match the expected value.");
+		}
+	    @Test
+		void testFooterNotPresentFail() {
+			driver.get("http://localhost:3000/movie6");
+	        boolean isFooterPresent = driver.findElements(By.tagName("footer")).isEmpty();
+			assertFalse(isFooterPresent, "The footer should not be present."); 
+		}
+
+		@Test
+		void testNavbarNotPresentFail() {
+			driver.get("http://localhost:3000/movie5");
+	        boolean isNavbarPresent = driver.findElements(By.tagName("navbar")).isEmpty();
+			assertFalse(isNavbarPresent, "The navbar should not be present."); 
+		}
+	    
+	    @Test
+	    void testParaContent() {
+	       
+	        driver.get("http://localhost:3000/movie6");
+	        
+	      
+	        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[2]/p[1]")); 
+	        
+	       
+	        String expectedParagraph = "Saripodhaa Sanivaaram is an action-thriller that tells the story of Surya\n" +
+	                "(played by Nani), who struggles to control his rage throughout the week.\n" +
+	                "On his mother's advice, he saves his anger for Saturdays. Finally,\n" +
+	                "on Saturdays, Surya sets out to get revenge on all the wrongdoers\n" +
+	                "he has faced during the week.";
+
+	        
+	       String actualParagraph = paragraph.getText();
+	        assertTrue(actualParagraph.contains(expectedParagraph), "The first paragraph content should match");
+	        
+	       
+	    }
+	  
+
+	    @Test
+	     void testHeading_Fail() {
+	    	  driver.get("http://localhost:3000/movie6");
+	      
+	        WebElement heading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[2]/h2[1]")); 
+	        String expectedHeading = "Movie Show";  
+	        String actualHeading = heading.getText();
+	        assertEquals(expectedHeading, actualHeading, "the heading does not match");
+	    }
+	    @Test
+	    void testparagraphcontent_Fail() {
+	        driver.get("http://localhost:3000/movie6");
+	        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/div/div[2]/p[1]")); 
+	        String expectedParagraph = "hello? how are you";  
+	        String actualParagraph = paragraph.getText();
+	        assertTrue(actualParagraph.contains(expectedParagraph), "The paragraph content does not match");
+	    }
+
+
+
+	    @AfterEach
+	    void tearDown() {
+	    
+	        if (driver != null) {
+	            driver.quit(); 
+	        }
+	    }
+	}
+

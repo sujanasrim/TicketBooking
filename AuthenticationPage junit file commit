@@ -1,0 +1,302 @@
+package jazzshow;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+class AuthenticationPage {
+
+        WebDriver driver;
+
+		@BeforeEach
+		void setUp() {
+			driver = new ChromeDriver();
+		}
+
+		private void loadHomePage() {
+			driver.get("http://localhost:3000/AuthenticationPage");
+		}
+
+		@Test
+		public void testValidAccountCreation() {
+			loadHomePage();
+			WebElement CreateaccountButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			CreateaccountButton.click();
+
+			WebElement emailField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[1]/input"));
+			emailField.sendKeys("Kaur5@123456.com");
+
+			WebElement passwordField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[2]/input"));
+			passwordField.sendKeys("Kaur5123456");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			assertEquals("http://localhost:3000/Mainpage", driver.getCurrentUrl(),
+					"The user should be redirected to the main page after account creation.");
+		}
+
+		@Test
+		public void testPasswordWithoutNumberDuringAccountCreation() {
+			loadHomePage();
+
+			WebElement CreateaccountButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			CreateaccountButton.click();
+			WebElement emailField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[1]/input"));
+			emailField.sendKeys("preeti@123456.com");
+
+			WebElement passwordField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[2]/input"));
+			passwordField.sendKeys("Password");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			WebElement errorMessage = driver.findElement(By.className("auth-error-message"));
+
+			System.out.println("Error message displayed: " + errorMessage.getText());
+
+			assertFalse("Error message should  be displayed for password without number.", errorMessage.isDisplayed());
+
+		}
+
+		@Test
+		public void testloginInvalidPassword() {
+			loadHomePage();
+
+			WebElement CreateaccountButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			CreateaccountButton.click();
+			WebElement emailField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[1]/input"));
+			emailField.sendKeys("preeti@123456.com");
+
+			WebElement passwordField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[2]/input"));
+			passwordField.sendKeys("123456");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			WebElement errorMessage = driver.findElement(By.xpath("//p[contains(@class, 'auth-error-message')]"));
+			assertTrue(errorMessage.isDisplayed());
+
+			assertTrue(errorMessage.getText().contains("The password is invalid."));
+		}
+
+		@Test
+		public void testLoginWithValidCredentials() {
+			loadHomePage();
+
+			WebElement emailInput = driver.findElement(By.id("email"));
+			emailInput.sendKeys("Harpreet@gmail.com");
+
+			WebElement passwordInput = driver.findElement(By.id("password"));
+			passwordInput.sendKeys("Preet1234");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			assertEquals("http://localhost:3000/Mainpage", driver.getCurrentUrl(),
+					"The user should be redirected to the main page after successful login.");
+		}
+
+		@Test
+		public void testShortPasswordfail() {
+			loadHomePage();
+			WebElement CreateaccountButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			CreateaccountButton.click();
+			WebElement emailField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[1]/input"));
+			emailField.sendKeys("preeti@123456.com");
+
+			WebElement passwordField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[2]/input"));
+			passwordField.sendKeys("Preet");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			WebElement errorMessage = driver.findElement(By.className("auth-error-message"));
+
+			Assert.assertFalse("Error message should  be displayed for short password.", errorMessage.isDisplayed());
+
+			driver.quit();
+		}
+
+		@Test
+		public void testInvalidEmailError() {
+			loadHomePage();
+
+			WebElement emailInput = driver.findElement(By.id("email"));
+			WebElement passwordInput = driver.findElement(By.id("password"));
+
+			emailInput.sendKeys("invalidEmail");
+			passwordInput.sendKeys("Password12345");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			Assert.fail("please fill out the vaild email.");
+
+			driver.quit();
+		}
+
+		@Test
+		public void testweakPasswordfail() {
+			loadHomePage();
+
+			WebElement CreateaccountButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			CreateaccountButton.click();
+			WebElement emailField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[1]/input"));
+			emailField.sendKeys("preeti@123456.com");
+
+			WebElement passwordField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[2]/input"));
+			passwordField.sendKeys("weak");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			WebElement errorMessage = driver.findElement(By.className("auth-error-message"));
+
+			Assert.assertFalse("Error message should  be displayed for weak password.", errorMessage.isDisplayed());
+
+			driver.quit();
+		}
+
+		@Test
+		public void testfieldemptylogin() {
+			loadHomePage();
+
+			WebElement switchModeButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			switchModeButton.click();
+
+			WebElement emailInput = driver.findElement(By.id("email"));
+			emailInput.sendKeys("");
+
+			WebElement passwordInput = driver.findElement(By.id("password"));
+			passwordInput.sendKeys("");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			assertEquals("http://localhost:3000/Mainpage", driver.getCurrentUrl(),
+					"please fill out the email and password into the field.");
+		}
+
+		@Test
+		void testcreateaccountbuttonNotEnabled() {
+			loadHomePage();
+
+			WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			assertFalse(bookButton.isEnabled(), "createaccount button should NOT be enabled.");
+		}
+
+		@Test
+		void testloginbuttonNotEnabled() {
+			loadHomePage();
+
+			WebElement bookButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			assertFalse(bookButton.isEnabled(), "login button should NOT be enabled.");
+		}
+
+		@Test
+		public void testLoginWithoutPassword() {
+			loadHomePage();
+
+			WebElement emailInput = driver.findElement(By.id("email"));
+			emailInput.sendKeys("testuser@example.com");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			String actualValue = "actual";
+			String expectedValue = "expected";
+			assertEquals(expectedValue, actualValue, "The password field is missing.");
+		}
+
+		@Test
+		public void testLoginwithinvalidaccountfail() {
+			loadHomePage();
+
+			WebElement emailInput = driver.findElement(By.id("email"));
+			emailInput.sendKeys("Har@gmail.com");
+
+			WebElement passwordInput = driver.findElement(By.id("password"));
+			passwordInput.sendKeys("Preet1234");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			assertEquals("http://localhost:3000/Mainpage", driver.getCurrentUrl(),
+					"please enter the vaild email and password.");
+		}
+
+		@Test
+		public void testCreateAccountinValidPassword() {
+			loadHomePage();
+
+			WebElement CreateaccountButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p/button"));
+			CreateaccountButton.click();
+			WebElement emailField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[1]/input"));
+			emailField.sendKeys("preeti@123456.com");
+
+			WebElement passwordField = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/div[2]/input"));
+			passwordField.sendKeys("12345");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			String actualValue = "actual";
+			String expectedValue = "expected";
+			assertEquals(expectedValue, actualValue, "enter the vaild passord for accountcreation.");
+		}
+
+		@Test
+		public void testloginWithoutEmail() {
+			loadHomePage();
+
+			WebElement passwordInput = driver.findElement(By.id("password"));
+			passwordInput.sendKeys("Preet123");
+
+			WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/form/button"));
+			submitButton.click();
+
+			String actualValue = "actual";
+			String expectedValue = "expected";
+			assertEquals(expectedValue, actualValue, "please fill out the email filed.");
+		}
+
+		@Test
+		public void testSwitchToCreateAccount() {
+			loadHomePage();
+			WebElement switchButton = driver.findElement(By.className("auth-switch-mode-button"));
+			switchButton.click();
+			WebElement heading = driver.findElement(By.className("auth-heading"));
+			Assert.assertEquals("Create Account", heading.getText());
+		}
+
+		@AfterEach
+		void tearDown() {
+			if (driver != null) {
+				driver.quit();
+			}
+		}
+	}
+
+
+

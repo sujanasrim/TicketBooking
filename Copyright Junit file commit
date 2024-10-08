@@ -1,0 +1,203 @@
+package jazzshow;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class copyright {
+
+    WebDriver driver;
+
+    @BeforeEach
+    void setUp() {
+        
+        
+        driver = new ChromeDriver();
+    }
+
+    private void loadHomePage() {
+        
+        driver.get("http://localhost:3000/CopyrightPage");  
+    }
+
+    @Test
+    void testTitle() {
+        loadHomePage();
+        String expectedTitle = "React App";  
+        String actualTitle = driver.getTitle();
+        assertEquals(expectedTitle, actualTitle, "The page title should match");
+    }
+
+    @Test
+     void testMainHeading() {
+        loadHomePage(); 
+        WebElement heading = driver.findElement(By.tagName("h1")); 
+        String expectedHeading = "Copyright Notice";  
+        String actualHeading = heading.getText();
+        assertEquals(expectedHeading, actualHeading, "The Copyright Notice heading should match");
+    }
+    @Test
+     void testfirstParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[1]")); 
+        String expectedParagraph = "Welcome to the Copyright Page of JazzShow.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The first paragraph content should be match");
+    }
+    
+   
+
+    @Test
+     void testsubheading1() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.tagName("h2")); 
+        String expectedPlatformHeading = "1. Copyright Information";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The Our Platform heading should be displayed correctly");
+    }
+    @Test
+     void testsecondParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[3]")); 
+        String expectedParagraph = "All content on this website, including text, images, graphics, logos, "
+        		+ "and design, is the property of JazzShow and is protected by copyright laws. Unauthorized "
+        		+ "use or reproduction of this content is prohibited.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The second paragraph content should be match");
+    }
+    
+
+    
+    @Test
+    public void testsubheading2() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/h2[2]")); 
+        String expectedPlatformHeading = "2. Copyright Ownership";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The Our team heading should be match");
+    }
+    @Test
+     void testThirdParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[4]")); 
+        String expectedParagraph = "JazzShow holds the exclusive rights to all content on this website. "
+        		+ "This includes but is not limited to the design, text, images, and software used to "
+        		+ "create and maintain the site.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The third paragraph content should be match");
+    }
+  
+    @Test
+     void testSubheading3() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/h2[3]")); 
+        String expectedPlatformHeading = "3. Intellectual Property Rights";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The Movie Experience heading should be match");
+    }
+    
+   
+     @Test
+    void testfourthParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[5]")); 
+        String expectedParagraph = "All trademarks, service marks, and trade names are owned by JazzShow. "
+        		+ "Any use of these marks without prior written consent is prohibited.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The fourth paragraph content should be match");
+    }
+
+    
+    @Test
+    public void testSubheading4() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/h2[4]")); 
+        String expectedPlatformHeading = "4. Contact Us";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The join us heading should be match");
+    }
+    @Test
+     void testfifthParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[6]")); 
+        String expectedParagraph = "If you have any questions or concerns regarding our copyright policies,"
+        		+ " please contact us at:";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The fifth paragraph content should be match");
+    }
+    @Test
+    void testsixParaContent() {
+       loadHomePage(); 
+       WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[7]")); 
+       String expectedParagraph = " Email: [JazzShowSupport@gmail.com]"
+       		+ "Phone: [1230-1230-4657]";  
+       String actualParagraph = paragraph.getText();
+       assertTrue(actualParagraph.contains(expectedParagraph), "The fifth paragraph content should be match");
+   }
+    @Test
+    void testsevenParaContent() {
+       loadHomePage(); 
+       WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[8]")); 
+       String expectedParagraph = " Thank you for visiting our website and for respecting our intellectual property";  
+       String actualParagraph = paragraph.getText();
+       assertTrue(actualParagraph.contains(expectedParagraph), "The fifth paragraph content should be match");
+   
+    } 
+
+    @Test
+    void testTitle_Fail() {
+        loadHomePage();
+        String expectedTitle = "Harpreet"; 
+        String actualTitle = driver.getTitle();
+        assertEquals(expectedTitle, actualTitle, "the title does not match");
+    }
+
+    @Test
+     void testHeading_Fail() {
+        loadHomePage(); 
+        WebElement heading = driver.findElement(By.tagName("h1")); 
+        String expectedHeading = "Movie Show";  
+        String actualHeading = heading.getText();
+        assertEquals(expectedHeading, actualHeading, "the heading does not match");
+    }
+    @Test
+     void testparagraphcontent_Fail() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[5]")); 
+        String expectedParagraph = "Hello! how are you?";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The paragraph content does not match");
+    }
+	@Test
+	void testFooterNotPresentFail() {
+		loadHomePage();
+        boolean isFooterPresent = driver.findElements(By.tagName("footer")).isEmpty();
+		assertFalse(isFooterPresent, "The footer should not be present."); 
+	}
+
+	@Test
+	void testNavbarNotPresentFail() {
+		loadHomePage();
+        boolean isNavbarPresent = driver.findElements(By.tagName("navbar")).isEmpty();
+		assertFalse(isNavbarPresent, "The navbar should not be present."); 
+	}
+    
+
+
+
+
+    @AfterEach
+    void tearDown() throws Exception {
+        if (driver != null) {
+            driver.quit();  
+        }
+    }
+}
+
+

@@ -1,0 +1,143 @@
+package ticket;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+class seating {
+
+	 WebDriver driver;
+
+		@BeforeEach
+		void setUp() {
+			driver = new ChromeDriver();
+		}
+		
+		private void loadHomePage() {
+			driver.get("http://localhost:3000/Jazzshow");
+		}
+		
+		@Test
+		public void seatingshowtimedropdown() {
+			loadHomePage();
+			WebElement tenam = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[7]/label/select\r\n"
+					+ ""));
+			tenam.click();
+		}
+		
+	
+	@Test
+		public void seatselectionten10am() {
+			loadHomePage();
+			
+			WebElement ten = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[7]/label/select/option[2]"
+					+ ""));
+			ten.click();
+			
+			WebElement clickfirstseat = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[5]/div[1]"
+				+ ""));
+			clickfirstseat.click();
+			
+			WebElement next = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[8]/button"
+				+ ""));
+			next.click();
+		
+		
+		}
+
+		
+		
+		@Test
+		public void seatalreadyseelected10am() {
+		    loadHomePage();
+		    
+		    WebElement ten = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[7]/label/select/option[2]"));
+		    ten.click();
+		    
+		    WebElement clickfirstseat = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[5]/div[1]"));
+		    clickfirstseat.click();
+		    
+		    String actualSeatStatus = "Available"; 
+		    String expectedSeatStatus = "Reserved"; 
+		    
+		   
+		    assertEquals(expectedSeatStatus, actualSeatStatus, "The seat status should not be reserved!");
+		}
+
+		
+		
+		
+		
+		@Test
+		public void seatselection1pm() {
+			loadHomePage();
+			
+			WebElement onepm = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[7]/label/select/option[3]"
+					+ ""));
+			onepm.click();
+			
+			WebElement secondrow = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[3]/div[5]"
+					+ ""));
+			secondrow.click();
+
+			WebElement firstrow = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[2]/div[12]"
+					+ ""));
+			firstrow.click();
+			
+			
+
+			WebElement thirdrow = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[4]/div[2]"
+					+ ""));
+			thirdrow.click();
+			
+
+			WebElement fourthrow = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[5]/div[7]"
+					+ ""));
+			fourthrow.click();
+			
+			
+			WebElement button = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[8]/button"
+					+ ""));
+				button.click();
+			
+			
+			 
+			
+			}
+
+		
+		
+		@Test
+	public void selactingseatwithouttime() {
+		loadHomePage();
+		WebElement clickfirstseat = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[5]/div[1]"
+			+ ""));
+		clickfirstseat.click();
+
+		
+		
+		
+}
+		
+
+		@AfterEach
+		void tearDown() {
+			if (driver != null) {
+				driver.quit();
+			}
+		}
+
+
+}
+		

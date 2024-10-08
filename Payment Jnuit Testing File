@@ -1,0 +1,226 @@
+package ticket;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.NoSuchElementException;
+
+class PaymentTest {
+
+	 WebDriver driver;
+
+		@BeforeEach
+		void setUp() {
+			driver = new ChromeDriver();
+		}
+		
+		private void loadHomePage() {
+			driver.get("http://localhost:3000/PaymentPage");
+		}
+		
+		
+		
+		
+		@Test
+		
+		public void Paymentpromtnotclose() {
+		    loadHomePage();
+
+		   
+		    WebElement iframe = driver.findElement(By.cssSelector("iframe")); 
+		    driver.switchTo().frame(iframe);
+
+		    WebElement num = driver.findElement(By.name("cardnumber"));
+		    num.sendKeys("4242424242424242");
+
+		    WebElement expire = driver.findElement(By.name("exp-date"));
+		    expire.sendKeys("0225"); 
+
+		    WebElement cvv = driver.findElement(By.name("cvc"));
+		    cvv.sendKeys("123"); // Example CVV
+
+		    WebElement zip = driver.findElement(By.name("postal"));
+		    zip.sendKeys("45698"); // Example ZIP code
+
+		    
+		    driver.switchTo().defaultContent();
+
+		   
+		    WebElement button = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/main/form/button"));
+		    button.click();
+		    
+		    
+		   		}
+	
+		
+		@Test
+		public void paywithpromptclose() {
+		    loadHomePage();
+
+		   		    WebElement iframe = driver.findElement(By.cssSelector("iframe"));
+		    driver.switchTo().frame(iframe);
+
+		   
+		    WebElement num = driver.findElement(By.xpath("//*[@id=\"root\"]/form/div/div[2]/span[1]/span[2]/div/div[2]/span/input"));
+		    num.sendKeys("4242424242424242");
+
+		    WebElement expire = driver.findElement(By.xpath("//*[@id=\"root\"]/form/div/div[2]/span[2]/span[1]/span/span/input"));
+		    expire.sendKeys("0428");
+
+		    WebElement cvv = driver.findElement(By.xpath("//*[@id=\"root\"]/form/div/div[2]/span[2]/span[2]/span/span/input"));
+		    cvv.sendKeys("123");
+
+		    WebElement zip = driver.findElement(By.xpath("//*[@id=\"root\"]/form/div/div[2]/span[2]/span[3]/span/span/input"));
+		    zip.sendKeys("56897");
+
+		    
+		    driver.switchTo().defaultContent();
+
+		    
+		    WebElement buttonone = driver.findElement(By.xpath("/html/body/div/div/div/main/form/button"));
+		    buttonone.click();
+
+		    
+		    try {
+		        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		        WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Payment succeeded!')]")));
+		        okButton.click();
+		    } catch (NoSuchElementException e) {
+		        System.out.println("No 'Payment succeeded' modal found.");
+		    }
+    		}
+		
+		
+		
+		@Test
+		
+		public void Paymentwithwrongdetails() {
+		    loadHomePage();
+
+		    
+		    WebElement iframe = driver.findElement(By.cssSelector("iframe")); 
+		    driver.switchTo().frame(iframe);
+
+		   
+		    WebElement num = driver.findElement(By.name("cardnumber"));
+		    num.sendKeys("4242424242424246");
+
+		    WebElement expire = driver.findElement(By.name("exp-date"));
+		    expire.sendKeys("0225"); 
+
+		    WebElement cvv = driver.findElement(By.name("cvc"));
+		    cvv.sendKeys("123"); 
+
+		    WebElement zip = driver.findElement(By.name("postal"));
+		    zip.sendKeys("45698"); 
+
+		    
+		    driver.switchTo().defaultContent();
+
+		    
+		    WebElement button = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/main/form/button"));
+		    button.click();
+		    
+		    
+		   		}
+
+
+		@Test
+		
+		public void Paymentwithexpirydetails() {
+		    loadHomePage();
+
+		    
+		    WebElement iframe = driver.findElement(By.cssSelector("iframe")); 
+		    driver.switchTo().frame(iframe);
+
+		    
+		   	    WebElement expire = driver.findElement(By.name("exp-date"));
+		    expire.sendKeys("0225"); // Example expiration date
+		    
+		    driver.switchTo().defaultContent();
+
+		    
+		    WebElement button = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/main/form/button"));
+		    button.click();
+		    
+		    
+		   		}
+		
+		
+		
+@Test
+		
+		public void Paymentwithnumbersonly() {
+		    loadHomePage();
+
+		    
+		    WebElement iframe = driver.findElement(By.cssSelector("iframe")); 
+		    driver.switchTo().frame(iframe);
+
+		   
+		    WebElement num = driver.findElement(By.name("cardnumber"));
+		    num.sendKeys("4242424242424242");
+		    
+		    driver.switchTo().defaultContent();
+
+		    
+		    WebElement button = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/main/form/button"));
+		    button.click();
+		    
+		    
+		   		}
+	
+
+
+		
+			@Test
+		
+		public void Paymentwithcvvdetails() {
+		    loadHomePage();
+
+		    
+		    WebElement iframe = driver.findElement(By.cssSelector("iframe")); 
+		    driver.switchTo().frame(iframe);
+
+		    WebElement cvv = driver.findElement(By.xpath("//*[@id=\"root\"]/form/div/div[2]/span[2]/span[2]/span/span/input"));
+		    cvv.sendKeys("123");
+		    
+		    driver.switchTo().defaultContent();
+
+		    
+		    
+		    WebElement button = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/main/form/button"));
+		    button.click();
+		    
+		    
+		   		}
+		
+		
+	
+
+			@AfterEach
+			void tearDown() {
+				if (driver != null) {
+					driver.quit();
+				}
+			}
+
+
+	
+
+		
+		
+
+}

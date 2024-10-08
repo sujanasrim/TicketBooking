@@ -1,0 +1,145 @@
+package jazzshow;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Footer {
+
+	  WebDriver driver;
+
+	    @BeforeEach
+	    void setUp() {
+	        driver = new ChromeDriver();
+	    }
+
+	    private void loadHomePage() {
+	      driver.get("http://localhost:3000/Mainpage");  
+	    }
+	   
+
+    @Test
+	    void testPrivacypolicyLink() {
+        loadHomePage();
+	        WebElement privacyPolicyLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[1]/a"));
+	        privacyPolicyLink.click();
+	        assertEquals("http://localhost:3000/PrivacyPolicy", driver.getCurrentUrl(), "User should be redirected to the Privacypolicy page.");
+    driver.quit();
+    }	
+   
+    @Test	
+    void testcopyrightLink() {
+        loadHomePage();
+        WebElement copyrightLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[2]/a"));
+        copyrightLink.click();
+	       
+	        assertEquals("http://localhost:3000/CopyrightPage", driver.getCurrentUrl(), "User should be redirected to the copyright page.");
+	    driver.quit();
+	    }
+	    	
+	    @Test	
+	    void testAboutUsLink() {
+	       loadHomePage();
+	       WebElement aboutUsLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[3]/a"));
+       aboutUsLink.click();
+       assertEquals("http://localhost:3000/AboutUs", driver.getCurrentUrl(), "User should be redirected to the About Us page.");	    
+}
+	    @Test	
+    void testtermsandconditionsLink() {
+	        loadHomePage();
+	        WebElement termsandconditionsLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[4]/a"));
+	        termsandconditionsLink.click();
+       assertEquals("http://localhost:3000/TermsAndConditions", driver.getCurrentUrl(), "User should be redirected to the terms and conditions page.");
+    driver.quit();
+    }
+	   
+ 
+
+	    @Test
+    void testaboutusLinkNotClickable() {
+    	loadHomePage();
+	         WebElement aboutusLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[3]/a"));
+	         boolean isClickable = aboutusLink.isEnabled();
+	        assertFalse(isClickable, "aboutus link should not be clickable.");
+	    }
+	    @Test
+	    void testprivacypolicyLinkNotClickable() {
+	    	loadHomePage();
+	         WebElement PrivacypolicyLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[1]/a"));
+	         boolean isClickable = PrivacypolicyLink.isEnabled();
+	        assertFalse(isClickable, "PrivacyPolicy link should not be clickable.");
+	    }
+	    @Test
+	    void testtermsandconditionsLinkNotClickable() {
+	    	loadHomePage();
+	         WebElement termsandconditionsLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[1]/a"));
+	         boolean isClickable = termsandconditionsLink.isEnabled();
+	        assertFalse(isClickable, "termsandconditions link should not be clickable.");
+	    }
+	    @Test
+	    void testcopyrightLinkNotClickable() {
+	    	loadHomePage();
+	         WebElement copyrightLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[2]/a"));
+	         boolean isClickable = copyrightLink.isEnabled();
+	        assertFalse(isClickable, "copyright link should not be clickable.");
+	    }
+	    
+	    @Test
+	    void testAboutUsLinkNotVisible() {
+	        loadHomePage(); 
+             WebElement aboutUsLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[3]/a"));
+             boolean isVisible = aboutUsLink.isDisplayed();
+             assertFalse(isVisible, "About Us link should not be visible"); 
+	    
+
+	    }
+	    @Test
+	    void testCopyrightLinkNotVisible() {
+	        loadHomePage(); 
+             WebElement copyrightLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[2]/a"));
+             boolean isVisible = copyrightLink.isDisplayed();
+             assertFalse(isVisible, "copyright link should not be visible"); 
+	    
+
+	    }
+	    
+	    @Test
+	    void testtermsandconditionsLinkNotVisible() {
+	        loadHomePage(); 
+             WebElement termsandconditionsLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[2]/a"));
+             boolean isVisible = termsandconditionsLink.isDisplayed();
+             assertFalse(isVisible, "copyright link should not be visible"); 
+	    
+
+	    }
+	    @Test
+	    void testPrivacypolicyLinkNotVisible() {
+	        loadHomePage(); 
+             WebElement PrivacypolicyLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[2]/a"));
+             boolean isVisible = PrivacypolicyLink.isDisplayed();
+             assertFalse(isVisible, "Privacypolicy link should not be visible"); 
+	    }
+	    @Test
+	    void testLinkTextIncorrect() {
+	        loadHomePage();
+	        WebElement aboutusLink = driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div[3]/a"));
+	        assertEquals("Homepage", aboutusLink.getText(), "aboutus link text should be 'aboutus'");
+	    }
+	    
+	    @AfterEach
+	    void tearDown() {
+	        if (driver != null) {
+	            driver.quit();
+	        }
+	    
+	  
+	  }
+}

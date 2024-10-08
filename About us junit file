@@ -1,0 +1,193 @@
+package jazzshow;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+class Aboutus {
+
+    WebDriver driver;
+
+    @BeforeEach
+    void setUp() {
+        
+        
+        driver = new ChromeDriver();
+    }
+
+    private void loadHomePage() {
+        
+        driver.get("http://localhost:3000/AboutUs");  
+    }
+
+    @Test
+    void testTitle() {
+        loadHomePage();
+        String expectedTitle = "React App";  
+        String actualTitle = driver.getTitle();
+        assertEquals(expectedTitle, actualTitle, "The page title should match");
+    }
+   
+
+    @Test
+     void testMainHeading() {
+        loadHomePage(); 
+        WebElement heading = driver.findElement(By.tagName("h1")); 
+        String expectedHeading = "Welcome to JazzShow";  
+        String actualHeading = heading.getText();
+        assertEquals(expectedHeading, actualHeading, "The Welcome to JazzShow heading should match");
+    }
+    @Test
+     void testfirstParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[1]")); 
+        String expectedParagraph = "Established in 2010, JazzShow began as a small movie booking platform with"
+        		+ " a vision to enhance your cinematic experience. Our journey started with a modest selection of films, "
+        		+ "and we have since grown into a premier movie booking service that offers a wide range "
+        		+ "of films and convenient booking options";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The first paragraph content should be match");
+    }
+    
+   
+
+    @Test
+     void testsubheading1() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.tagName("h2")); 
+        String expectedPlatformHeading = "Our Platform";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The Our Platform heading should be displayed correctly");
+    }
+    @Test
+     void testsecondParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[2]")); 
+        String expectedParagraph = "Over the years, JazzShow has evolved to feature user-friendly"
+        		+ " interfaces and cutting-edge technology designed to provide an engaging and "
+        		+ "seamless booking experience. We are proud of our state-of-the-art booking system "
+        		+ "that supports movie lovers in finding and booking their favorite films effortlessly";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The second paragraph content should be match");
+    }
+	@Test
+	void testFooterNotPresentFail() {
+		loadHomePage();
+        boolean isFooterPresent = driver.findElements(By.tagName("footer")).isEmpty();
+		assertFalse(isFooterPresent, "The footer should not be present."); 
+	}
+
+	@Test
+	void testNavbarNotPresentFail() {
+		loadHomePage();
+        boolean isNavbarPresent = driver.findElements(By.tagName("navbar")).isEmpty();
+		assertFalse(isNavbarPresent, "The navbar should not be present."); 
+	}
+    
+
+    
+    @Test
+    public void testsubheading2() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/h2[2]")); 
+        String expectedPlatformHeading = "Our Team";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The Our team heading should be match");
+    }
+    @Test
+     void testThirdParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[3]")); 
+        String expectedParagraph = "We take pride in our dedicated team, who bring a diverse range of "
+        		+ "expertise and a passion for cinema. Our team members are committed to providing "
+        		+ "high-quality service and ensuring that every customer has an exceptional "
+        		+ "movie booking experience.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The third paragraph content should be match");
+    }
+  
+    @Test
+     void testSubheading3() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/h2[3]")); 
+        String expectedPlatformHeading = "Movie Experience";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The Movie Experience heading should be match");
+    }
+    
+   
+     @Test
+    void testfourthParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[4]")); 
+        String expectedParagraph = "At JazzShow, we believe that movie-watching is more than just a pastime; "
+        		+ "it's an experience. Our platform supports a variety of cinematic events and special "
+        		+ "promotions throughout the year, fostering a vibrant and exciting movie-going culture.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The fourth paragraph content should be match");
+    }
+
+    
+    @Test
+    public void testSubheading4() {
+        loadHomePage(); 
+        WebElement platformHeading = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/h2[4]")); 
+        String expectedPlatformHeading = "Join Us";  
+        String actualPlatformHeading = platformHeading.getText();
+        assertEquals(expectedPlatformHeading, actualPlatformHeading, "The join us heading should be match");
+    }
+    @Test
+     void testfifthParaContent() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[5]")); 
+        String expectedParagraph = "We are dedicated to enhancing your movie experience and providing "
+        		+ "exceptional service. Our platform and services are designed to support your enjoyment "
+        		+ "of the best films available. Join us at JazzShow and become part of a community that "
+        		+ "celebrates cinema and convenience.";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The fifth paragraph content should be match");
+    }
+    
+
+    @Test
+    void testTitlematchfail() {
+        loadHomePage();
+        String expectedTitle = "Harpreet"; 
+        String actualTitle = driver.getTitle();
+        assertEquals(expectedTitle, actualTitle, "the title does not match");
+    }
+
+    @Test
+     void testHeadingmatchfail() {
+        loadHomePage(); 
+        WebElement heading = driver.findElement(By.tagName("h1")); 
+        String expectedHeading = "Movie Show";  
+        String actualHeading = heading.getText();
+        assertEquals(expectedHeading, actualHeading, "the heading does not match");
+    }
+    @Test
+     void testparagraphcontentmatchfail() {
+        loadHomePage(); 
+        WebElement paragraph = driver.findElement(By.xpath("/html/body/div/div/div/div[2]/p[5]")); 
+        String expectedParagraph = "Hello! how are you?";  
+        String actualParagraph = paragraph.getText();
+        assertTrue(actualParagraph.contains(expectedParagraph), "The paragraph content does not match");
+    }
+    
+
+
+
+
+    @AfterEach
+    void tearDown() throws Exception {
+        if (driver != null) {
+            driver.quit();  
+        }
+    }
+}
